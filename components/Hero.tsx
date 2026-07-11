@@ -15,7 +15,8 @@ export default function Hero() {
     >
 
       {/* Brilho de fundo */}
-      <div className="
+      <div
+        className="
         absolute
         w-96
         h-96
@@ -24,10 +25,12 @@ export default function Hero() {
         rounded-full
         blur-3xl
         animate-pulse
-      "></div>
+        "
+      ></div>
 
 
-      <div className="
+      <div
+        className="
         relative
         z-10
         max-w-6xl
@@ -35,46 +38,52 @@ export default function Hero() {
         md:grid-cols-2
         items-center
         gap-10
-      ">
-
+        "
+      >
 
         {/* Texto */}
         <div className="text-center md:text-left">
 
-          <h1 className="
+          <h1
+            className="
             text-5xl
             md:text-7xl
             font-bold
             text-yellow-400
             mb-6
-          ">
+            "
+          >
             Lava Jato do Yuri 🚗
           </h1>
 
 
-          <p className="
+          <p
+            className="
             text-xl
             md:text-2xl
             text-gray-300
             mb-8
-          ">
+            "
+          >
             Seu veículo limpo, brilhando e cuidado nos mínimos detalhes.
           </p>
 
 
-          <p className="
+          <p
+            className="
             text-gray-400
             mb-8
-          ">
+            "
+          >
             ✨ Lavagem profissional <br />
             ⏱️ Atendimento de 1h30 até 2h <br />
             📅 Trabalhamos com agendamento
           </p>
 
 
+          {/* Botão para ir ao agendamento */}
           <a
-            href="https://wa.me/5519988010459"
-            target="_blank"
+            href="#agendamento"
             className="
               inline-block
               bg-yellow-400
@@ -89,19 +98,21 @@ export default function Hero() {
               shadow-lg
             "
           >
-            📲 Agendar agora
+            📅 Agendar agora
           </a>
 
         </div>
 
 
         {/* Imagem do carro */}
-        <div className="
+        <div
+          className="
           flex
           justify-center
           animate-bounce
           [animation-duration:3s]
-        ">
+          "
+        >
 
           <img
             src="https://images.unsplash.com/photo-1503376780353-7e6692767b70"
