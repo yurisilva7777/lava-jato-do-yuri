@@ -185,8 +185,8 @@ export default function Schedule() {
               🧽 Escolha um serviço
             </option>
 
-            <option value="Lavagem Completa + Pretinho - R$35">
-              🚗 Lavagem Completa + Pretinho - R$35
+            <option value="Lavagem Completa + Pretinho - R$30">
+              🚗 Lavagem Completa + Pretinho - R$30
             </option>
 
             <option value="Pacote Completo - R$40">
