@@ -5,7 +5,7 @@ export default function Services() {
       titulo: "Lavagem Completa + Pretinho",
       descricao:
         "Lavagem externa completa com aplicação de pretinho nos pneus para deixar seu veículo renovado.",
-      valor: "R$ 40",
+      valor: "R$ 30",
     },
     {
       icone: "✨",
@@ -13,7 +13,7 @@ export default function Services() {
         "Lavagem Completa + Aspirar + Tapetes + Pretinho",
       descricao:
         "Serviço completo com limpeza interna, aspiração, lavagem dos tapetes e acabamento premium.",
-      valor: "R$ 50",
+      valor: "R$ 40",
     },
     {
       icone: "🏍️",
