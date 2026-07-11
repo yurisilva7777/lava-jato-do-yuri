@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer className="bg-zinc-950 text-white py-10 mt-20 border-t border-zinc-800">
       <div className="max-w-6xl mx-auto px-6 text-center">
-        <h2 className="text-3xl font-bold text-yellow-400">
+        <h2 className="text-2xl md:text-3xl font-bold text-yellow-400">
           Lava Jato do Yuri
         </h2>
 
