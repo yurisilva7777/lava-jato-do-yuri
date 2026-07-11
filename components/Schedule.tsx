@@ -99,10 +99,13 @@ setHorario("");
     Pacote Completo - R$40
   </option>
 </select>
-
+<label className="block text-sm font-medium mb-2">
+  Escolha a data
+</label>
          <input
   type="date"
   value={data}
+  min={new Date().toISOString().split("T")[0]}
   onChange={(e) => setData(e.target.value)}
   className="w-full p-4 rounded-xl bg-zinc-800"
 />
