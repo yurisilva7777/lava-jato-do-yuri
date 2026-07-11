@@ -114,19 +114,25 @@ export default function Schedule() {
             className="w-full p-4 rounded-xl bg-zinc-800"
           />
 
-          <select
-            value={servico}
-            onChange={(e) => setServico(e.target.value)}
-            className="w-full p-4 rounded-xl bg-zinc-800"
-          >
-            <option value="">Escolha um serviço</option>
-            <option value="Lavagem Completa + Pretinho">
-              Lavagem Completa + Pretinho - R$30
-            </option>
-            <option value="Pacote Completo">
-              Pacote Completo - R$40
-            </option>
-          </select>
+         <select
+  value={servico}
+  onChange={(e) => setServico(e.target.value)}
+  className="w-full p-4 rounded-xl bg-zinc-800"
+>
+  <option value="">Escolha um serviço</option>
+
+  <option value="Lavagem Completa + Pretinho">
+    🚗 Lavagem Completa + Pretinho - R$30
+  </option>
+
+  <option value="Pacote Completo">
+    ✨ Pacote Completo - R$40
+  </option>
+
+  <option value="Lavagem de Moto + Pretinho">
+    🏍️ Lavagem de Moto + Pretinho - R$30
+  </option>
+</select>
 
           <label className="block text-sm font-medium">
             Escolha a data
