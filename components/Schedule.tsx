@@ -2,7 +2,13 @@
 "use client";
 
 import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
 export default function Schedule() {
@@ -14,42 +20,62 @@ export default function Schedule() {
   const [horario, setHorario] = useState("");
 
   const agendar = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  console.log({
-    nome,
-    telefone,
-    veiculo,
-    servico,
-    data,
-    horario,
-  });
+    if (
+      !nome ||
+      !telefone ||
+      !veiculo ||
+      !servico ||
+      !data ||
+      !horario
+    ) {
+      alert("Preencha todos os campos!");
+      return;
+    }
 
-  try {
-    const docRef = await addDoc(collection(db, "agendamentos"), {
-      nome,
-      telefone,
-      veiculo,
-      servico,
-      data,
-      horario,
-      status: "Agendado",
-    });
+    try {
+      // Verifica se o horário já está ocupado
+      const q = query(
+        collection(db, "agendamentos"),
+        where("data", "==", data),
+        where("horario", "==", horario)
+      );
 
-    console.log("Documento criado:", docRef.id);
+      const snapshot = await getDocs(q);
 
-    alert("Agendamento realizado com sucesso!");
-setNome("");
-setTelefone("");
-setVeiculo("");
-setServico("");
-setData("");
-setHorario("");
-  } catch (error) {
-    console.error("Erro Firebase:", error);
-    alert("Erro ao realizar o agendamento.");
-  }
-};
+      if (!snapshot.empty) {
+        alert("❌ Este horário já está ocupado. Escolha outro.");
+        return;
+      }
+
+      // Salva o agendamento
+      const docRef = await addDoc(collection(db, "agendamentos"), {
+        nome,
+        telefone,
+        veiculo,
+        servico,
+        data,
+        horario,
+        status: "Agendado",
+        criadoEm: new Date(),
+      });
+
+      console.log("Documento criado:", docRef.id);
+
+      alert("✅ Agendamento realizado com sucesso!");
+
+      setNome("");
+      setTelefone("");
+      setVeiculo("");
+      setServico("");
+      setData("");
+      setHorario("");
+    } catch (error) {
+      console.error("Erro Firebase:", error);
+      alert("Erro ao realizar o agendamento.");
+    }
+  };
 
   return (
     <section
@@ -65,64 +91,68 @@ setHorario("");
         <form onSubmit={agendar} className="space-y-6">
 
           <input
-         type="text"
-         placeholder="Nome"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-        className="w-full p-4 rounded-xl bg-zinc-800"
-/>
+            type="text"
+            placeholder="Nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            className="w-full p-4 rounded-xl bg-zinc-800"
+          />
+
           <input
-  type="tel"
-  placeholder="WhatsApp"
-  value={telefone}
-  onChange={(e) => setTelefone(e.target.value)}
-  className="w-full p-4 rounded-xl bg-zinc-800"
-/>
-         <input
-  type="text"
-  placeholder="Modelo do veículo"
-  value={veiculo}
-  onChange={(e) => setVeiculo(e.target.value)}
-  className="w-full p-4 rounded-xl bg-zinc-800"
-/>
+            type="tel"
+            placeholder="WhatsApp"
+            value={telefone}
+            onChange={(e) => setTelefone(e.target.value)}
+            className="w-full p-4 rounded-xl bg-zinc-800"
+          />
+
+          <input
+            type="text"
+            placeholder="Modelo do veículo"
+            value={veiculo}
+            onChange={(e) => setVeiculo(e.target.value)}
+            className="w-full p-4 rounded-xl bg-zinc-800"
+          />
 
           <select
-  value={servico}
-  onChange={(e) => setServico(e.target.value)}
-  className="w-full p-4 rounded-xl bg-zinc-800"
->
-  <option value="">Escolha um serviço</option>
-  <option value="Lavagem Completa + Pretinho">
-    Lavagem Completa + Pretinho - R$30
-  </option>
-  <option value="Pacote Completo">
-    Pacote Completo - R$40
-  </option>
-</select>
-<label className="block text-sm font-medium mb-2">
-  Escolha a data
-</label>
-         <input
-  type="date"
-  value={data}
-  min={new Date().toISOString().split("T")[0]}
-  onChange={(e) => setData(e.target.value)}
-  className="w-full p-4 rounded-xl bg-zinc-800"
-/>
+            value={servico}
+            onChange={(e) => setServico(e.target.value)}
+            className="w-full p-4 rounded-xl bg-zinc-800"
+          >
+            <option value="">Escolha um serviço</option>
+            <option value="Lavagem Completa + Pretinho">
+              Lavagem Completa + Pretinho - R$30
+            </option>
+            <option value="Pacote Completo">
+              Pacote Completo - R$40
+            </option>
+          </select>
+
+          <label className="block text-sm font-medium">
+            Escolha a data
+          </label>
+
+          <input
+            type="date"
+            value={data}
+            min={new Date().toISOString().split("T")[0]}
+            onChange={(e) => setData(e.target.value)}
+            className="w-full p-4 rounded-xl bg-zinc-800"
+          />
 
           <select
-  value={horario}
-  onChange={(e) => setHorario(e.target.value)}
-  className="w-full p-4 rounded-xl bg-zinc-800"
->
-  <option value="">Escolha um horário</option>
-  <option value="08:00">08:00</option>
-  <option value="10:00">10:00</option>
-  <option value="12:00">12:00</option>
-  <option value="14:00">14:00</option>
-  <option value="16:00">16:00</option>
-  <option value="18:00">18:00</option>
-</select>
+            value={horario}
+            onChange={(e) => setHorario(e.target.value)}
+            className="w-full p-4 rounded-xl bg-zinc-800"
+          >
+            <option value="">Escolha um horário</option>
+            <option value="08:00">08:00</option>
+            <option value="10:00">10:00</option>
+            <option value="12:00">12:00</option>
+            <option value="14:00">14:00</option>
+            <option value="16:00">16:00</option>
+            <option value="18:00">18:00</option>
+          </select>
 
           <button
             type="submit"
