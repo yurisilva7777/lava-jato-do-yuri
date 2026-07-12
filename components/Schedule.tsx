@@ -66,13 +66,11 @@ export default function Schedule() {
     }
   };
 
-
   return (
     <section
       id="agendamento"
       className="bg-black text-white py-20 px-6"
     >
-
       <div
         className="
         max-w-3xl
@@ -105,12 +103,10 @@ export default function Schedule() {
           Escolha o melhor dia e horário para cuidar do seu veículo.
         </p>
 
-
         <form
           onSubmit={agendar}
           className="space-y-5"
         >
-
 
           <input
             type="text"
@@ -129,7 +125,6 @@ export default function Schedule() {
             "
           />
 
-
           <input
             type="tel"
             placeholder="📱 WhatsApp"
@@ -146,7 +141,6 @@ export default function Schedule() {
             outline-none
             "
           />
-
 
           <input
             type="text"
@@ -165,7 +159,6 @@ export default function Schedule() {
             "
           />
 
-
           <select
             value={servico}
             onChange={(e) => setServico(e.target.value)}
@@ -180,7 +173,6 @@ export default function Schedule() {
             outline-none
             "
           >
-
             <option value="">
               🧽 Escolha um serviço
             </option>
@@ -193,15 +185,16 @@ export default function Schedule() {
               ✨ Pacote Completo - R$40
             </option>
 
+            <option value="Limpeza Interna + Aspiração - R$25">
+              🧹 Limpeza Interna + Aspiração (sem lavagem externa) - R$25
+            </option>
+
             <option value="Lavagem de Moto + Pretinho - R$30">
               🏍️ Lavagem de Moto + Pretinho - R$30
             </option>
-
           </select>
 
-
-
-          <label className="text-yellow-400 font-medium">
+            <label className="text-yellow-400 font-medium">
             📅 Escolha a data
           </label>
 
@@ -218,11 +211,12 @@ export default function Schedule() {
             border
             border-zinc-700
             focus:border-yellow-400
+            focus:ring-2
+            focus:ring-yellow-400
             outline-none
+            transition
             "
           />
-
-
 
           <label className="text-yellow-400 font-medium">
             ⏰ Escolha o horário
@@ -239,13 +233,13 @@ export default function Schedule() {
             border
             border-zinc-700
             focus:border-yellow-400
+            focus:ring-2
+            focus:ring-yellow-400
             outline-none
+            transition
             "
           >
-
-            <option value="">
-              Escolha um horário
-            </option>
+            <option value="">Escolha um horário</option>
 
             <option value="08:00">🌅 08:00</option>
             <option value="10:00">☀️ 10:00</option>
@@ -253,10 +247,7 @@ export default function Schedule() {
             <option value="14:00">🌤️ 14:00</option>
             <option value="16:00">🌇 16:00</option>
             <option value="18:00">🌙 18:00</option>
-
           </select>
-
-
 
           <button
             type="submit"
@@ -272,11 +263,11 @@ export default function Schedule() {
             hover:scale-105
             transition
             duration-300
+            shadow-lg
             "
           >
             🚗 CONFIRMAR AGENDAMENTO
           </button>
-
 
         </form>
 
