@@ -7,8 +7,16 @@ import {
   query,
   where,
   getDocs,
+  serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
+
+const precos: Record<string, number> = {
+  "Lavagem Completa + Pretinho - R$30": 30,
+  "Pacote Completo - R$40": 40,
+  "Limpeza Interna + Aspiração - R$25": 25,
+  "Lavagem de Moto + Pretinho - R$30": 30,
+};
 
 export default function Schedule() {
   const [nome, setNome] = useState("");
@@ -17,11 +25,20 @@ export default function Schedule() {
   const [servico, setServico] = useState("");
   const [data, setData] = useState("");
   const [horario, setHorario] = useState("");
+  const [formaPagamento, setFormaPagamento] = useState("");
 
   const agendar = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!nome || !telefone || !veiculo || !servico || !data || !horario) {
+    if (
+      !nome ||
+      !telefone ||
+      !veiculo ||
+      !servico ||
+      !data ||
+      !horario ||
+      !formaPagamento
+    ) {
       alert("Preencha todos os campos!");
       return;
     }
@@ -36,21 +53,34 @@ export default function Schedule() {
       const snapshot = await getDocs(q);
 
       if (!snapshot.empty) {
-        alert("❌ Este horário já está ocupado. Escolha outro.");
+        alert("❌ Este horário já está ocupado.");
         return;
       }
 
-      await addDoc(collection(db, "agendamentos"), {
-        nome,
-        telefone,
-        veiculo,
-        servico,
-        data,
-        horario,
-        status: "Agendado",
-        criadoEm: new Date(),
-      });
+      const valor = precos[servico] || 0;
 
+      await addDoc(collection(db,"agendamentos"),{
+
+nome,
+telefone,
+veiculo,
+
+servico,
+
+valor: Number(
+  servico.match(/\d+/)?.[0] || 0
+),
+
+gorjeta:0,
+
+data,
+horario,
+
+status:"Agendado",
+
+criadoEm:new Date()
+
+});
       alert("✅ Agendamento realizado com sucesso!");
 
       setNome("");
@@ -59,6 +89,7 @@ export default function Schedule() {
       setServico("");
       setData("");
       setHorario("");
+      setFormaPagamento("");
 
     } catch (error) {
       console.error(error);
@@ -73,34 +104,23 @@ export default function Schedule() {
     >
       <div
         className="
-        max-w-3xl
-        mx-auto
-        bg-zinc-900
-        p-8
-        md:p-10
-        rounded-3xl
-        shadow-2xl
-        border
-        border-zinc-800
+          max-w-3xl
+          mx-auto
+          bg-zinc-900
+          rounded-3xl
+          border
+          border-zinc-800
+          shadow-2xl
+          p-10
         "
       >
 
-        <h2 className="
-          text-4xl
-          font-bold
-          text-center
-          text-yellow-400
-          mb-3
-        ">
+        <h2 className="text-4xl font-bold text-center text-yellow-400 mb-3">
           📅 Agende seu Horário
         </h2>
 
-        <p className="
-          text-center
-          text-gray-400
-          mb-8
-        ">
-          Escolha o melhor dia e horário para cuidar do seu veículo.
+        <p className="text-center text-gray-400 mb-8">
+          Escolha o melhor horário para cuidar do seu veículo.
         </p>
 
         <form
@@ -113,16 +133,7 @@ export default function Schedule() {
             placeholder="👤 Nome"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
-            className="
-            w-full
-            p-4
-            rounded-2xl
-            bg-zinc-800
-            border
-            border-zinc-700
-            focus:border-yellow-400
-            outline-none
-            "
+            className="w-full p-4 rounded-2xl bg-zinc-800 border border-zinc-700 focus:border-yellow-400 outline-none"
           />
 
           <input
@@ -130,16 +141,7 @@ export default function Schedule() {
             placeholder="📱 WhatsApp"
             value={telefone}
             onChange={(e) => setTelefone(e.target.value)}
-            className="
-            w-full
-            p-4
-            rounded-2xl
-            bg-zinc-800
-            border
-            border-zinc-700
-            focus:border-yellow-400
-            outline-none
-            "
+            className="w-full p-4 rounded-2xl bg-zinc-800 border border-zinc-700 focus:border-yellow-400 outline-none"
           />
 
           <input
@@ -147,35 +149,15 @@ export default function Schedule() {
             placeholder="🚗 Modelo do veículo"
             value={veiculo}
             onChange={(e) => setVeiculo(e.target.value)}
-            className="
-            w-full
-            p-4
-            rounded-2xl
-            bg-zinc-800
-            border
-            border-zinc-700
-            focus:border-yellow-400
-            outline-none
-            "
+            className="w-full p-4 rounded-2xl bg-zinc-800 border border-zinc-700 focus:border-yellow-400 outline-none"
           />
 
           <select
             value={servico}
             onChange={(e) => setServico(e.target.value)}
-            className="
-            w-full
-            p-4
-            rounded-2xl
-            bg-zinc-800
-            border
-            border-zinc-700
-            focus:border-yellow-400
-            outline-none
-            "
+            className="w-full p-4 rounded-2xl bg-zinc-800 border border-zinc-700 focus:border-yellow-400 outline-none"
           >
-            <option value="">
-              🧽 Escolha um serviço
-            </option>
+            <option value="">🧽 Escolha um serviço</option>
 
             <option value="Lavagem Completa + Pretinho - R$30">
               🚗 Lavagem Completa + Pretinho - R$30
@@ -186,7 +168,7 @@ export default function Schedule() {
             </option>
 
             <option value="Limpeza Interna + Aspiração - R$25">
-              🧹 Limpeza Interna + Aspiração (sem lavagem externa) - R$25
+              🧹 Limpeza Interna + Aspiração - R$25
             </option>
 
             <option value="Lavagem de Moto + Pretinho - R$30">
@@ -194,7 +176,7 @@ export default function Schedule() {
             </option>
           </select>
 
-            <label className="text-yellow-400 font-medium">
+           <label className="text-yellow-400 font-medium">
             📅 Escolha a data
           </label>
 
@@ -204,17 +186,17 @@ export default function Schedule() {
             min={new Date().toISOString().split("T")[0]}
             onChange={(e) => setData(e.target.value)}
             className="
-            w-full
-            p-4
-            rounded-2xl
-            bg-zinc-800
-            border
-            border-zinc-700
-            focus:border-yellow-400
-            focus:ring-2
-            focus:ring-yellow-400
-            outline-none
-            transition
+              w-full
+              p-4
+              rounded-2xl
+              bg-zinc-800
+              border
+              border-zinc-700
+              focus:border-yellow-400
+              focus:ring-2
+              focus:ring-yellow-400
+              outline-none
+              transition
             "
           />
 
@@ -226,17 +208,17 @@ export default function Schedule() {
             value={horario}
             onChange={(e) => setHorario(e.target.value)}
             className="
-            w-full
-            p-4
-            rounded-2xl
-            bg-zinc-800
-            border
-            border-zinc-700
-            focus:border-yellow-400
-            focus:ring-2
-            focus:ring-yellow-400
-            outline-none
-            transition
+              w-full
+              p-4
+              rounded-2xl
+              bg-zinc-800
+              border
+              border-zinc-700
+              focus:border-yellow-400
+              focus:ring-2
+              focus:ring-yellow-400
+              outline-none
+              transition
             "
           >
             <option value="">Escolha um horário</option>
@@ -249,21 +231,71 @@ export default function Schedule() {
             <option value="18:00">🌙 18:00</option>
           </select>
 
+          <label className="text-yellow-400 font-medium">
+            💳 Forma de Pagamento
+          </label>
+
+          <select
+            value={formaPagamento}
+            onChange={(e) => setFormaPagamento(e.target.value)}
+            className="
+              w-full
+              p-4
+              rounded-2xl
+              bg-zinc-800
+              border
+              border-zinc-700
+              focus:border-yellow-400
+              focus:ring-2
+              focus:ring-yellow-400
+              outline-none
+              transition
+            "
+          >
+            <option value="">Selecione</option>
+
+            <option value="Dinheiro">
+              💵 Dinheiro
+            </option>
+
+            <option value="PIX">
+              📲 PIX
+            </option>
+
+            <option value="Cartão">
+              💳 Cartão
+            </option>
+          </select>
+
+          {servico && (
+            <div className="bg-zinc-800 border border-yellow-400 rounded-2xl p-5 text-center">
+
+              <p className="text-gray-400 text-sm">
+                Valor do serviço
+              </p>
+
+              <h3 className="text-4xl font-bold text-yellow-400 mt-2">
+                R$ {(precos[servico] || 0).toFixed(2)}
+              </h3>
+
+            </div>
+          )}
+
           <button
             type="submit"
             className="
-            w-full
-            bg-yellow-400
-            text-black
-            py-4
-            rounded-2xl
-            font-bold
-            text-lg
-            hover:bg-yellow-300
-            hover:scale-105
-            transition
-            duration-300
-            shadow-lg
+              w-full
+              bg-yellow-400
+              text-black
+              py-4
+              rounded-2xl
+              font-bold
+              text-lg
+              hover:bg-yellow-300
+              hover:scale-105
+              transition-all
+              duration-300
+              shadow-lg
             "
           >
             🚗 CONFIRMAR AGENDAMENTO
