@@ -27,6 +27,8 @@ export default function Schedule() {
   const [horario, setHorario] = useState("");
   const [formaPagamento, setFormaPagamento] = useState("");
 
+  const [gorjeta, setGorjeta] = useState(0);
+
   const agendar = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -71,7 +73,7 @@ valor: Number(
   servico.match(/\d+/)?.[0] || 0
 ),
 
-gorjeta:0,
+gorjeta,
 
 data,
 horario,
@@ -126,7 +128,18 @@ criadoEm:new Date()
         <form
           onSubmit={agendar}
           className="space-y-5"
+          
         >
+          <select
+  value={gorjeta}
+  onChange={(e) => setGorjeta(Number(e.target.value))}
+>
+  <option value={0}>Sem gorjeta</option>
+  <option value={5}>R$ 5</option>
+  <option value={10}>R$ 10</option>
+  <option value={20}>R$ 20</option>
+  <option value={30}>R$ 30</option>
+</select>
 
           <input
             type="text"
