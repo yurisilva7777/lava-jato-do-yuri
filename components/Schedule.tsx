@@ -61,27 +61,17 @@ export default function Schedule() {
 
       const valor = precos[servico] || 0;
 
-      await addDoc(collection(db,"agendamentos"),{
-
-nome,
-telefone,
-veiculo,
-
-servico,
-
-valor: Number(
-  servico.match(/\d+/)?.[0] || 0
-),
-
-gorjeta,
-
-data,
-horario,
-
-status:"Agendado",
-
-criadoEm:new Date()
-
+await addDoc(collection(db, "agendamentos"), {
+  nome,
+  telefone,
+  veiculo,
+  servico,
+  valor: precos[servico] || 0,
+  gorjeta,
+  data,
+  horario,
+  status: "Pendente",
+  criadoEm: serverTimestamp(),
 });
       alert("✅ Agendamento realizado com sucesso!");
 

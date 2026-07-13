@@ -82,24 +82,22 @@ useEffect(() => {
 
     const snapshot = await getDocs(collection(db, "agendamentos"));
 
-    const lista = snapshot.docs.map((documento)=>{
+    const lista = snapshot.docs.map((documento) => {
+  const data = documento.data();
 
-const data = documento.data();
-
-return {
-id: documento.id,
-nome:data.nome || "",
-telefone:data.telefone || "",
-veiculo:data.veiculo || "",
-servico:data.servico || "",
-valor:Number(data.valor || 0),
-gorjeta:Number(data.gorjeta || 0),
-formaPagamento:data.formaPagamento || "",
-data:data.data || "",
-horario:data.horario || "",
-status:data.status || "Agendado"
-}
-
+  return {
+    id: documento.id,
+    nome: data.nome || "",
+    telefone: data.telefone || "",
+    veiculo: data.veiculo || "",
+    servico: data.servico || "",
+    valor: Number(data.valor || 0),
+    gorjeta: Number(data.gorjeta || 0),
+    formaPagamento: data.formaPagamento || "",
+    data: data.data || "",
+    horario: data.horario || "",
+    status: data.status || "Agendado",
+  };
 });
 
     setAgendamentos(lista);
@@ -195,22 +193,19 @@ const confirmados = agendamentos.filter(
 ).length;
 
   const gorjetasHoje = useMemo(() => {
+  const hoje = new Date().toISOString().split("T")[0];
 
-    const hoje = new Date().toISOString().split("T")[0];
-
-    return agendamentos
-      .filter(
-        (a) =>
-          a.data === hoje &&
-          a.status === "Concluído"
-      )
-      .reduce(
-        (acc, item) =>
-          acc + (item.gorjeta || 0),
-        0
-      );
-
-  }, [agendamentos]);
+  return agendamentos
+    .filter(
+      a =>
+        a.status === "Concluído" &&
+        a.data === hoje
+    )
+    .reduce(
+      (total, item) => total + (item.gorjeta || 0),
+      0
+    );
+}, [agendamentos]);
 
   const concluidos = useMemo(() => {
 
@@ -347,7 +342,8 @@ const dadosGrafico = useMemo(() => {
           <thead className="bg-zinc-900">
 
             <tr>
-
+                <th>Gorjeta</th>
+                
               <th className="p-4">Cliente</th>
 
               <th className="p-4">Telefone</th>
@@ -384,7 +380,7 @@ const dadosGrafico = useMemo(() => {
                 </td>
 
               </tr>
-
+              
             ) : (
 
               agendamentosFiltrados.map((agendamento) => (
@@ -393,6 +389,7 @@ const dadosGrafico = useMemo(() => {
                   key={agendamento.id}
                   className="border-t border-zinc-800 hover:bg-zinc-900 transition"
                 >
+                  <td>R$ {(agendamento.gorjeta || 0).toFixed(2)}</td>
 
                   <td className="p-4">
                     {agendamento.nome}
