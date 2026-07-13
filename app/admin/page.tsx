@@ -381,32 +381,20 @@ Agradecemos a preferência! 😊`;
 
         <table className="w-full">
 
-          <thead className="bg-zinc-900">
-
-            <tr>
-                <th>Gorjeta</th>
-                <th className="p-4">Ações</th>
-              <th className="p-4">Cliente</th>
-
-              <th className="p-4">Telefone</th>
-
-              <th className="p-4">Veículo</th>
-
-              <th className="p-4">Serviço</th>
-
-              <th className="p-4">Valor</th>
-
-              <th className="p-4">Data</th>
-
-              <th className="p-4">Horário</th>
-
-              <th className="p-4">Status</th>
-
-              <th className="p-4">Ações</th>
-
-            </tr>
-
-          </thead>
+          <thead className="bg-zinc-900 text-white sticky top-0">
+  <tr>
+    <th className="p-4 text-center">Gorjeta</th>
+    <th className="p-4 text-left">Cliente</th>
+    <th className="p-4 text-center">Telefone</th>
+    <th className="p-4 text-center">Veículo</th>
+    <th className="p-4 text-left">Serviço</th>
+    <th className="p-4 text-right">Valor</th>
+    <th className="p-4 text-center">Data</th>
+    <th className="p-4 text-center">Horário</th>
+    <th className="p-4 text-center">Status</th>
+    <th className="p-4 text-center">Ações</th>
+  </tr>
+</thead>
 
           <tbody>
 
