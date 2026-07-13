@@ -16,7 +16,7 @@ import {
 } from "firebase/auth";
 
 import { db, auth } from "../../firebase/firebase";
-
+import { FaWhatsapp } from "react-icons/fa";
 import DashboardCards from "./components/DashboardCards";
 import RevenueChart from "./components/RevenueChart";
 
@@ -267,7 +267,26 @@ const dadosGrafico = useMemo(() => {
 }, [agendamentos]);
 console.log(agendamentos);
   if (carregando) {
+const enviarLembrete = (agendamento: Agendamento) => {
+  const telefone = agendamento.telefone.replace(/\D/g, "");
 
+  const mensagem = `🚗 Olá, ${agendamento.nome}!
+
+Seu agendamento está se aproximando.
+
+📅 Data: ${agendamento.data}
+🕒 Horário: ${agendamento.horario}
+🚙 Serviço: ${agendamento.servico}
+
+Quando chegar ao lava jato, envie uma mensagem avisando sua chegada para iniciarmos seu atendimento rapidamente.
+
+Agradecemos a preferência! 😊`;
+
+  window.open(
+    `https://wa.me/55${telefone}?text=${encodeURIComponent(mensagem)}`,
+    "_blank"
+  );
+};
     return (
       <main className="min-h-screen bg-black text-white flex items-center justify-center">
         Carregando...
@@ -338,7 +357,7 @@ console.log(agendamentos);
 
             <tr>
                 <th>Gorjeta</th>
-                
+                <th className="p-4">Ações</th>
               <th className="p-4">Cliente</th>
 
               <th className="p-4">Telefone</th>
@@ -414,29 +433,25 @@ console.log(agendamentos);
                     {agendamento.horario}
                   </td>
 
-                  <td className="p-4">
+                 <td className="p-4">
+  <span
+    className={`px-3 py-1 rounded-full text-sm font-semibold
+      ${
+        agendamento.status === "Agendado"
+          ? "bg-yellow-500 text-black"
+          : agendamento.status === "Confirmado"
+          ? "bg-green-600"
+          : agendamento.status === "Concluído"
+          ? "bg-blue-600"
+          : "bg-red-600"
+      }
+    `}
+  >
+    {agendamento.status}
+  </span>
+</td>
 
-                    <span
-                      className={`px-3 py-1 rounded-full text-sm font-semibold
 
-                      ${
-                        agendamento.status === "Agendado"
-                          ? "bg-yellow-500 text-black"
-                          : agendamento.status === "Confirmado"
-                          ? "bg-green-600"
-                          : agendamento.status === "Concluído"
-                          ? "bg-blue-600"
-                          : "bg-red-600"
-                      }
-
-                      `}
-                    >
-
-                      {agendamento.status}
-
-                    </span>
-
-                  </td>
 
                   <td className="p-4">
 
@@ -487,12 +502,12 @@ console.log(agendamentos);
                       >
                         🗑️
                       </button>
-                      <button
-  onClick={() => enviarWhatsApp(agendamento)}
-  className="bg-green-600 hover:bg-green-700 px-3 py-2 rounded-lg"
-  title="Enviar WhatsApp"
+<button
+ onClick={() => enviarLembrete(agendamento)}
+  className="bg-[#25D366] hover:bg-[#1ebe5d] px-3 py-2 rounded-lg flex items-center justify-center"
+  title="Enviar lembrete pelo WhatsApp"
 >
-  📱
+  <FaWhatsapp size={20} />
 </button>
 
                     </div>
