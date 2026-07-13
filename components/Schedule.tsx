@@ -238,21 +238,7 @@ criadoEm:new Date()
           <label className="text-yellow-400 font-medium">
             💳 Forma de Pagamento
           </label>
-        <label>💰 Gorjeta</label>
-
-<select
-className="w-full bg-zinc-800 border border-zinc-700 rounded-xl p-3"
-  value={gorjeta}
-  onChange={(e) => setGorjeta(Number(e.target.value))}
->
-  <option value={0}>Sem gorjeta</option>
-  <option value={5}>R$ 5</option>
-  <option value={10}>R$ 10</option>
-  <option value={15}>R$ 15</option>
-  <option value={20}>R$ 20</option>
-  <option value={25}>R$ 25</option>
-  
-</select>
+        
           <select
             value={formaPagamento}
             onChange={(e) => setFormaPagamento(e.target.value)}
@@ -284,21 +270,35 @@ className="w-full bg-zinc-800 border border-zinc-700 rounded-xl p-3"
               💳 Cartão
             </option>
           </select>
+          <label className="text-yellow-400">
+💰 Gorjeta
+</label>
 
-          {servico && (
+<select
+  value={gorjeta}
+  onChange={(e)=>setGorjeta(Number(e.target.value))}
+  className="w-full bg-zinc-800 rounded-xl p-3"
+>
+  <option value={0}>Sem gorjeta</option>
+  <option value={5}>R$ 5</option>
+  <option value={10}>R$ 10</option>
+  <option value={20}>R$ 20</option>
+</select>
+
+          {servico && 
             <div className="bg-zinc-800 border border-yellow-400 rounded-2xl p-5 text-center">
 
-              <p className="text-gray-400 text-sm">
-                Valor do serviço
-              </p>
+  <p className="text-gray-400 text-sm">
+    Valor do serviço
+  </p>
 
-              <h3 className="text-4xl font-bold text-yellow-400 mt-2">
-                R$ {(precos[servico] || 0).toFixed(2)}
-              </h3>
+  <h3 className="text-4xl bold text-yellow-400 mt-2">
+    R$ {((precos[servico] || 0) + gorjeta).toLocaleString("pt-BR", {
+  minimumFractionDigits: 2
+})}
+  </h3>
 
-            </div>
-          )}
-
+</div>}
           <button
             type="submit"
             className="
