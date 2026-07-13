@@ -9,14 +9,22 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-
+import {
+  FaCheck,
+  FaCheckDouble,
+  FaTrash,
+  FaWhatsapp,
+  FaBell,
+  FaTimes,
+} from "react-icons/fa";
 import {
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
-
+import { FaCheckCircle, FaCar, FaMoneyBillWave } from "react-icons/fa";
+import { BsWhatsapp } from "react-icons/bs";
 import { db, auth } from "../../firebase/firebase";
-import { FaWhatsapp } from "react-icons/fa";
+
 import DashboardCards from "./components/DashboardCards";
 import RevenueChart from "./components/RevenueChart";
 
@@ -143,6 +151,26 @@ ${agendamento.servico}
 Obrigado pela preferência!
 
 Lava Jato do Yuri 🚗`;
+
+  const url =
+    `https://wa.me/55${telefone}?text=${encodeURIComponent(mensagem)}`;
+
+  window.open(url, "_blank");
+}
+function enviarLembrete(agendamento: Agendamento) {
+  const telefone = agendamento.telefone.replace(/\D/g, "");
+
+  const mensagem = `🚗 Olá, ${agendamento.nome}!
+
+Seu agendamento na Lava Jato do Yuri está se aproximando.
+
+📅 Data: ${agendamento.data}
+🕒 Horário: ${agendamento.horario}
+🧽 Serviço: ${agendamento.servico}
+
+📍 Assim que chegar ao lava jato, envie uma mensagem avisando sua chegada para organizarmos seu atendimento.
+
+Obrigado pela preferência! 😊`;
 
   const url =
     `https://wa.me/55${telefone}?text=${encodeURIComponent(mensagem)}`;
@@ -455,62 +483,63 @@ Agradecemos a preferência! 😊`;
 
                   <td className="p-4">
 
-                    <div className="flex gap-2 flex-wrap">
+<div className="flex items-center gap-2">
 
-                      <button
-                        onClick={() =>
-                          atualizarStatus(
-                            agendamento.id,
-                            "Confirmado"
-                          )
-                        }
-                        className="bg-green-600 hover:bg-green-700 px-3 py-2 rounded-lg"
-                      >
-                        ✅
-                      </button>
+  {/* Confirmar */}
+  <button
+    onClick={() => atualizarStatus(agendamento.id, "Confirmado")}
+    className="w-10 h-10 rounded-xl bg-emerald-600 hover:bg-emerald-700 transition flex items-center justify-center"
+    title="Confirmar Agendamento"
+  >
+    <FaCheck className="text-white" />
+  </button>
 
-                      <button
-                        onClick={() =>
-                          atualizarStatus(
-                            agendamento.id,
-                            "Concluído"
-                          )
-                        }
-                        className="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg"
-                      >
-                        ✔️
-                      </button>
-                                            <button
-                        onClick={() =>
-                          atualizarStatus(
-                            agendamento.id,
-                            "Cancelado"
-                          )
-                        }
-                        className="bg-orange-600 hover:bg-orange-700" px-3 py-2 
-                      >
-                        ❌
-                      </button>
+  {/* Concluir */}
+  <button
+    onClick={() => atualizarStatus(agendamento.id, "Concluído")}
+    className="w-10 h-10 rounded-xl bg-blue-600 hover:bg-blue-700 transition flex items-center justify-center"
+    title="Concluir Serviço"
+  >
+    <FaCheckDouble className="text-white" />
+  </button>
 
-                      <button
-                        onClick={() =>
-                          excluirAgendamento(
-                            agendamento.id
-                          )
-                        }
-                        className="bg-red-600 hover:bg-red-700 px-3 py-2 rounded-lg"
-                      >
-                        🗑️
-                      </button>
-<button
- onClick={() => enviarLembrete(agendamento)}
-  className="bg-[#25D366] hover:bg-[#1ebe5d] px-3 py-2 rounded-lg flex items-center justify-center"
-  title="Enviar lembrete pelo WhatsApp"
->
-  <FaWhatsapp size={20} />
-</button>
+  {/* Cancelar */}
+  <button
+    onClick={() => atualizarStatus(agendamento.id, "Cancelado")}
+    className="w-10 h-10 rounded-xl bg-orange-500 hover:bg-orange-600 transition flex items-center justify-center"
+    title="Cancelar Agendamento"
+  >
+    <FaTimes className="text-white" />
+  </button>
 
-                    </div>
+  {/* Excluir */}
+  <button
+    onClick={() => excluirAgendamento(agendamento.id)}
+    className="w-10 h-10 rounded-xl bg-red-600 hover:bg-red-700 transition flex items-center justify-center"
+    title="Excluir Agendamento"
+  >
+    <FaTrash className="text-white" />
+  </button>
+
+  {/* Veículo pronto */}
+  <button
+    onClick={() => enviarWhatsApp(agendamento)}
+    className="w-10 h-10 rounded-xl bg-sky-600 hover:bg-sky-700 transition flex items-center justify-center"
+    title="Avisar que o veículo está pronto"
+  >
+    <FaWhatsapp className="text-white" />
+  </button>
+
+  {/* Lembrete */}
+  <button
+    onClick={() => enviarLembrete(agendamento)}
+    className="w-10 h-10 rounded-xl bg-green-600 hover:bg-green-700 transition flex items-center justify-center"
+    title="Enviar lembrete do agendamento"
+  >
+    <FaBell className="text-white" />
+  </button>
+
+</div>
 
                   </td>
 
