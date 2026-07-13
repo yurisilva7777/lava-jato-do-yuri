@@ -82,7 +82,7 @@ useEffect(() => {
 
     const snapshot = await getDocs(collection(db, "agendamentos"));
 
-    const lista = snapshot.docs.map((documento) => {
+   const lista = snapshot.docs.map((documento) => {
   const data = documento.data();
 
   return {
@@ -99,6 +99,8 @@ useEffect(() => {
     status: data.status || "Agendado",
   };
 });
+
+console.log(lista);
 
     setAgendamentos(lista);
 
@@ -192,15 +194,9 @@ const confirmados = agendamentos.filter(
   a => a.status === "Confirmado"
 ).length;
 
-  const gorjetasHoje = useMemo(() => {
-  const hoje = new Date().toISOString().split("T")[0];
-
+const gorjetas = useMemo(() => {
   return agendamentos
-    .filter(
-      a =>
-        a.status === "Concluído" &&
-        a.data === hoje
-    )
+    .filter((a) => a.status === "Concluído")
     .reduce(
       (total, item) => total + (item.gorjeta || 0),
       0
@@ -269,7 +265,7 @@ const dadosGrafico = useMemo(() => {
   ];
 
 }, [agendamentos]);
-
+console.log(agendamentos);
   if (carregando) {
 
     return (
@@ -298,11 +294,10 @@ const dadosGrafico = useMemo(() => {
         </button>
 
       </div>
-
-     <DashboardCards
+<DashboardCards
   faturamentoHoje={faturamentoHoje}
   faturamentoTotal={faturamentoTotal}
-  gorjetas={gorjetasHoje}
+  gorjetas={gorjetas}
   agendamentos={agendamentos.length}
   concluidos={concluidos}
   confirmados={confirmados}
@@ -373,7 +368,7 @@ const dadosGrafico = useMemo(() => {
               <tr>
 
                 <td
-                  colSpan={9}
+                 colSpan={10}
                   className="text-center p-10 text-zinc-400"
                 >
                   Nenhum agendamento encontrado.
