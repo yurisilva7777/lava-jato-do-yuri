@@ -130,16 +130,7 @@ criadoEm:new Date()
           className="space-y-5"
           
         >
-          <select
-  value={gorjeta}
-  onChange={(e) => setGorjeta(Number(e.target.value))}
->
-  <option value={0}>Sem gorjeta</option>
-  <option value={5}>R$ 5</option>
-  <option value={10}>R$ 10</option>
-  <option value={20}>R$ 20</option>
-  <option value={30}>R$ 30</option>
-</select>
+
 
           <input
             type="text"
@@ -247,7 +238,21 @@ criadoEm:new Date()
           <label className="text-yellow-400 font-medium">
             💳 Forma de Pagamento
           </label>
+        <label>💰 Gorjeta</label>
 
+<select
+className="w-full bg-zinc-800 border border-zinc-700 rounded-xl p-3"
+  value={gorjeta}
+  onChange={(e) => setGorjeta(Number(e.target.value))}
+>
+  <option value={0}>Sem gorjeta</option>
+  <option value={5}>R$ 5</option>
+  <option value={10}>R$ 10</option>
+  <option value={15}>R$ 15</option>
+  <option value={20}>R$ 20</option>
+  <option value={25}>R$ 25</option>
+  
+</select>
           <select
             value={formaPagamento}
             onChange={(e) => setFormaPagamento(e.target.value)}
