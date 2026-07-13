@@ -273,6 +273,8 @@ await addDoc(collection(db, "agendamentos"), {
   <option value={5}>R$ 5</option>
   <option value={10}>R$ 10</option>
   <option value={20}>R$ 20</option>
+  <option value={25}>R$ 25</option>
+  <option value={30}>R$ 30</option>
 </select>
 
           {servico && 
