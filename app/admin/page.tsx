@@ -377,23 +377,21 @@ Agradecemos a preferência! 😊`;
 
 </div>
 
-<div className="mt-10 overflow-x-auto">
-
-        <table className="w-full">
-
+<div className="mt-10 overflow-x-auto rounded-xl border border-zinc-800">
+<table className="w-full text-sm">
           <thead className="bg-zinc-900 text-white sticky top-0">
   <tr>
-    <th className="p-4 text-center">Gorjeta</th>
-    <th className="p-4 text-left">Cliente</th>
-    <th className="p-4 text-center">Telefone</th>
-    <th className="p-4 text-center">Veículo</th>
-    <th className="p-4 text-left">Serviço</th>
-    <th className="p-4 text-right">Valor</th>
-    <th className="p-4">Forma de Pagamento</th>
-    <th className="p-4 text-center">Data</th>
-    <th className="p-4 text-center">Horário</th>
-    <th className="p-4 text-center">Status</th>
-    <th className="p-4 text-center">Ações</th>
+  <th className="p-4 text-left">Cliente</th>
+<th className="p-4 text-center">Telefone</th>
+<th className="p-4 text-center">Veículo</th>
+<th className="p-4 text-left">Serviço</th>
+<th className="p-4 text-right">Valor</th>
+<th className="p-4 text-center">Gorjeta</th>
+<th className="p-4 text-center">Forma de Pagamento</th>
+<th className="p-4 text-center">Data</th>
+<th className="p-4 text-center">Horário</th>
+<th className="p-4 text-center">Status</th>
+<th className="p-4 text-center">Ações</th>
   </tr>
 </thead>
 
@@ -404,7 +402,7 @@ Agradecemos a preferência! 😊`;
               <tr>
 
                 <td
-                 colSpan={10}
+                 colSpan={11}
                   className="text-center p-10 text-zinc-400"
                 >
                   Nenhum agendamento encontrado.
@@ -420,52 +418,55 @@ Agradecemos a preferência! 😊`;
                   key={agendamento.id}
                   className="border-t border-zinc-800 hover:bg-zinc-900 transition"
                 >
-                  <td>R$ {(agendamento.gorjeta || 0).toFixed(2)}</td>
-
                   <td className="p-4">
-                    {agendamento.nome}
-                  </td>
+  {agendamento.nome}
+</td>
 
-                  <td className="p-4">
-                    {agendamento.telefone}
-                  </td>
+<td className="p-4">
+  {agendamento.telefone}
+</td>
 
-                  <td className="p-4">
-                    {agendamento.veiculo}
-                  </td>
+<td className="p-4">
+  {agendamento.veiculo}
+</td>
 
-                  <td className="p-4">
-                    {agendamento.servico}
-                  </td>
+<td className="p-4">
+  {agendamento.servico}
+</td>
 
-                  <td className="p-4 text-green-400 font-bold">
-                    R$ {Number(agendamento.valor || 0).toFixed(2)}
-                  </td>
+<td className="p-4 text-green-400 font-bold">
+  R$ {Number(agendamento.valor || 0).toFixed(2)}
+</td>
 
-                  <td className="p-4">
-                    {agendamento.data}
-                  </td>
+<td className="p-4 text-center text-yellow-400 font-bold">
+  R$ {Number(agendamento.gorjeta || 0).toFixed(2)}
+</td>
 
-                  <td className="p-4">
-                    {agendamento.horario}
-                  </td>
-                  <td className="p-4">
+<td className="p-4 text-center">
   <span className="px-3 py-1 rounded-full bg-gray-700 text-white text-sm">
     {agendamento.formaPagamento || "Não informado"}
   </span>
 </td>
 
-                 <td className="p-4">
+<td className="p-4 text-center">
+  {agendamento.data}
+</td>
+
+<td className="p-4 text-center">
+  {agendamento.horario}
+</td>
+
+<td className="p-4 text-center">
   <span
     className={`px-3 py-1 rounded-full text-sm font-semibold
       ${
         agendamento.status === "Agendado"
           ? "bg-yellow-500 text-black"
           : agendamento.status === "Confirmado"
-          ? "bg-green-600"
+          ? "bg-green-600 text-white"
           : agendamento.status === "Concluído"
-          ? "bg-blue-600"
-          : "bg-red-600"
+          ? "bg-blue-600 text-white"
+          : "bg-red-600 text-white"
       }
     `}
   >
