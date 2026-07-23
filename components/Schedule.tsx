@@ -67,6 +67,7 @@ await addDoc(collection(db, "agendamentos"), {
   veiculo,
   servico,
   valor: precos[servico] || 0,
+ formaPagamento,
   gorjeta,
   data,
   horario,
