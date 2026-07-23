@@ -35,8 +35,8 @@ interface Agendamento {
   veiculo: string;
   servico: string;
   valor?: number;
-  gorjeta?: number;
   formaPagamento?: string;
+  gorjeta?: number;
   data: string;
   horario: string;
   status: string;
@@ -93,19 +93,19 @@ useEffect(() => {
    const lista = snapshot.docs.map((documento) => {
   const data = documento.data();
 
-  return {
-    id: documento.id,
-    nome: data.nome || "",
-    telefone: data.telefone || "",
-    veiculo: data.veiculo || "",
-    servico: data.servico || "",
-    valor: Number(data.valor || 0),
-    gorjeta: Number(data.gorjeta || 0),
-    formaPagamento: data.formaPagamento || "",
-    data: data.data || "",
-    horario: data.horario || "",
-    status: data.status || "Agendado",
-  };
+ return {
+  id: documento.id,
+  nome: data.nome || "",
+  telefone: data.telefone || "",
+  veiculo: data.veiculo || "",
+  servico: data.servico || "",
+  valor: Number(data.valor || 0),
+   formaPagamento: data.formaPagamento || "",
+  gorjeta: Number(data.gorjeta || 0),
+  data: data.data || "",
+  horario: data.horario || "",
+  status: data.status || "",
+};
 });
 
 console.log(lista);
@@ -389,6 +389,7 @@ Agradecemos a preferência! 😊`;
     <th className="p-4 text-center">Veículo</th>
     <th className="p-4 text-left">Serviço</th>
     <th className="p-4 text-right">Valor</th>
+    <th className="p-4">Forma de Pagamento</th>
     <th className="p-4 text-center">Data</th>
     <th className="p-4 text-center">Horário</th>
     <th className="p-4 text-center">Status</th>
@@ -448,6 +449,11 @@ Agradecemos a preferência! 😊`;
                   <td className="p-4">
                     {agendamento.horario}
                   </td>
+                  <td className="p-4">
+  <span className="px-3 py-1 rounded-full bg-gray-700 text-white text-sm">
+    {agendamento.formaPagamento || "Não informado"}
+  </span>
+</td>
 
                  <td className="p-4">
   <span
