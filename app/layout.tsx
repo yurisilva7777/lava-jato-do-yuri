@@ -1,4 +1,9 @@
-import Footer from "@/components/Footer";
+import "./globals.css";
+
+export const metadata = {
+  title: "Lava Jato do Yuri",
+  description: "Lavagem de veículos",
+};
 
 export default function RootLayout({
   children,
@@ -7,10 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body>
-        {children}
-        <Footer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
